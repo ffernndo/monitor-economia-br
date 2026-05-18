@@ -1,8 +1,8 @@
 {
-  "last_updated": "2026-05-15T21:59:15Z",
+  "last_updated": "2026-05-18T22:02:35Z",
   "source": "BCB/SGS-25",
   "current": {
-    "rendimento": 0.6717,
+    "rendimento": 0.6698,
     "acumulado_ano": 3.37,
     "acumulado_12m": 8.34,
     "mes_referencia": "2026-05"
@@ -314,7 +314,7 @@
     },
     {
       "data": "2026-05",
-      "valor": 0.6717
+      "valor": 0.6698
     }
   ],
   "acum_ano": [
