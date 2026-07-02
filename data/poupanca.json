@@ -1,11 +1,11 @@
 {
-  "last_updated": "2026-07-01T22:16:58Z",
+  "last_updated": "2026-07-02T22:05:50Z",
   "source": "BCB/SGS-25",
   "current": {
-    "rendimento": 0.6703,
-    "acumulado_ano": 4.06,
+    "rendimento": 0.6738,
+    "acumulado_ano": 4.76,
     "acumulado_12m": 8.34,
-    "mes_referencia": "2026-06"
+    "mes_referencia": "2026-07"
   },
   "monthly": [
     {
@@ -319,6 +319,10 @@
     {
       "data": "2026-06",
       "valor": 0.6703
+    },
+    {
+      "data": "2026-07",
+      "valor": 0.6738
     }
   ],
   "acum_ano": [
@@ -633,6 +637,10 @@
     {
       "data": "2026-06",
       "valor": 4.06
+    },
+    {
+      "data": "2026-07",
+      "valor": 4.76
     }
   ],
   "acum_12m": [
@@ -902,6 +910,10 @@
     },
     {
       "data": "2026-06",
+      "valor": 8.34
+    },
+    {
+      "data": "2026-07",
       "valor": 8.34
     }
   ]
