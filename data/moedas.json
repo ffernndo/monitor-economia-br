@@ -1,13 +1,13 @@
 {
-  "last_updated": "2026-08-24T21:26:06Z",
+  "last_updated": "2026-08-25T21:25:32Z",
   "source": "BCB/PTAX",
   "usd": {
     "current": {
-      "cotacao_venda": 5.1512,
-      "data": "2026-08-24"
+      "cotacao_venda": 5.149,
+      "data": "2026-08-25"
     },
     "variations": {
-      "day": -0.22
+      "day": -0.04
     },
     "monthly": [
       {
@@ -328,18 +328,18 @@
       },
       {
         "data": "2026-08",
-        "valor": 5.1512
+        "valor": 5.149
       }
     ],
     "nome": "Dólar (USD)"
   },
   "eur": {
     "current": {
-      "cotacao_venda": 6.0089,
-      "data": "2026-08-24"
+      "cotacao_venda": 6.0109,
+      "data": "2026-08-25"
     },
     "variations": {
-      "day": -0.38
+      "day": 0.03
     },
     "monthly": [
       {
@@ -660,18 +660,18 @@
       },
       {
         "data": "2026-08",
-        "valor": 6.0089
+        "valor": 6.0109
       }
     ],
     "nome": "Euro (EUR)"
   },
   "gbp": {
     "current": {
-      "cotacao_venda": 7.0216,
-      "data": "2026-08-24"
+      "cotacao_venda": 7.0253,
+      "data": "2026-08-25"
     },
     "variations": {
-      "day": -0.31
+      "day": 0.05
     },
     "monthly": [
       {
@@ -992,18 +992,18 @@
       },
       {
         "data": "2026-08",
-        "valor": 7.0216
+        "valor": 7.0253
       }
     ],
     "nome": "Libra (GBP)"
   },
   "chf": {
     "current": {
-      "cotacao_venda": 6.4205,
-      "data": "2026-08-24"
+      "cotacao_venda": 6.417,
+      "data": "2026-08-25"
     },
     "variations": {
-      "day": -0.42
+      "day": -0.05
     },
     "monthly": [
       {
@@ -1324,18 +1324,18 @@
       },
       {
         "data": "2026-08",
-        "valor": 6.4205
+        "valor": 6.417
       }
     ],
     "nome": "Franco Suíço (CHF)"
   },
   "cad": {
     "current": {
-      "cotacao_venda": 3.722,
-      "data": "2026-08-24"
+      "cotacao_venda": 3.7223,
+      "data": "2026-08-25"
     },
     "variations": {
-      "day": -0.77
+      "day": 0.01
     },
     "monthly": [
       {
@@ -1656,7 +1656,7 @@
       },
       {
         "data": "2026-08",
-        "valor": 3.722
+        "valor": 3.7223
       }
     ],
     "nome": "Dólar Can. (CAD)"
