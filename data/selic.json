@@ -1,12 +1,19 @@
 {
-  "last_updated": "2026-09-16T23:32:52Z",
+  "last_updated": "2026-09-17T23:22:29Z",
   "source": "BCB/SGS-432,11",
   "current": {
-    "meta": 14.0,
-    "efetiva": 0.05166,
+    "meta": 13.75,
+    "efetiva": 0.050788,
     "data": "2026-09"
   },
   "copom_decisions": [
+    {
+      "data": "2026-09-17",
+      "taxa_anterior": 14.0,
+      "taxa_nova": 13.75,
+      "variacao": -0.25,
+      "direcao": "corte"
+    },
     {
       "data": "2026-08-06",
       "taxa_anterior": 14.25,
@@ -576,7 +583,7 @@
     },
     {
       "data": "2026-09",
-      "taxa": 14.0
+      "taxa": 13.75
     }
   ],
   "efetiva_monthly": [
@@ -902,7 +909,7 @@
     },
     {
       "data": "2026-09",
-      "taxa": 0.05166
+      "taxa": 0.050788
     }
   ]
 }
