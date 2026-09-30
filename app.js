@@ -1,15 +1,15 @@
 /**
- * Monitor Economia BR — app.js
- * Dashboard de indicadores econômicos brasileiros.
- * Dólar (PTAX), Selic (SGS-432) e IPCA (SGS-433/13522).
+ * Brazil Economy Monitor | app.js
+ * Dashboard of Brazilian economic indicators.
+ * US dollar (PTAX), Selic (SGS-432) and IPCA (SGS-433/13522).
  */
 
 Chart.register(ChartDataLabels);
 
 /* ═══════════════════════════════════════
-   PLUGIN: EIXO HIERÁRQUICO AGRUPADO
-   Config armazenada fora do Chart.js para
-   evitar deep-merge que destrói funções.
+   PLUGIN: GROUPED HIERARCHICAL AXIS
+   Config stored outside Chart.js to
+   avoid a deep merge that destroys functions.
    ═══════════════════════════════════════ */
 const _hAxisConfigs = {};
 
@@ -35,7 +35,7 @@ const hierarchicalAxisPlugin = {
             const left = chart.chartArea.left;
             const right = chart.chartArea.right;
 
-            // Extrair datas dos labels
+            // Extract dates from the labels
             const dates = [];
             for (let i = 0; i < labels.length; i++) {
                 const parts = String(labels[i]).split('-');
@@ -50,7 +50,7 @@ const hierarchicalAxisPlugin = {
 
             const totalHeight = config.levels.length * 22;
 
-            // Nível 0 (mais fino): distribuir uniformemente
+            // Level 0 (finest): distribute evenly
             const level0 = config.levels[0];
             const slots = []; // { key, label, cx, slotStart, slotEnd }
             let lastKey0 = null;
@@ -72,7 +72,7 @@ const hierarchicalAxisPlugin = {
                 s.cx = s.slotStart + slotWidth / 2;
             });
 
-            // Desenhar nível 0 (meses)
+            // Draw level 0 (months)
             const y0 = bottom + 14;
             ctx.save();
             ctx.textAlign = 'center';
@@ -96,12 +96,12 @@ const hierarchicalAxisPlugin = {
             });
             ctx.restore();
 
-            // Níveis superiores (ano, etc): centralizar sob os slots filhos
+            // Upper levels (year, etc.): centre under the child slots
             for (let lvlIdx = 1; lvlIdx < config.levels.length; lvlIdx++) {
                 const level = config.levels[lvlIdx];
                 const y = bottom + 14 + lvlIdx * 22;
 
-                // Agrupar slots do nível anterior por chave deste nível
+                // Group the previous level's slots by this level's key
                 const groups = [];
                 let cur = null;
                 slots.forEach(s => {
@@ -146,8 +146,8 @@ const hierarchicalAxisPlugin = {
 Chart.register(hierarchicalAxisPlugin);
 
 const MESES = [
-    'jan', 'fev', 'mar', 'abr', 'mai', 'jun',
-    'jul', 'ago', 'set', 'out', 'nov', 'dez'
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
 ];
 
 const AXIS_LEVEL_MONTH = {
@@ -161,49 +161,49 @@ const AXIS_LEVEL_YEAR = {
 };
 
 /* ═══════════════════════════════════════
-   INDICADORES
+   INDICATORS
    ═══════════════════════════════════════ */
 
 const INDICATORS = {
-    // Câmbio — cotação mensal
+    // Exchange rates: monthly quote
     usd:        { label: 'USD',  color: '--accent-blue', yAxis: 'yBRL', type: 'line', unit: 'R$', decimals: 2 },
     eur:        { label: 'EUR',  color: '#3498db',       yAxis: 'yBRL', type: 'line', unit: 'R$', decimals: 2 },
     gbp:        { label: 'GBP',  color: '#1abc9c',       yAxis: 'yBRL', type: 'line', unit: 'R$', decimals: 2 },
     chf:        { label: 'CHF',  color: '#e74c3c',       yAxis: 'yBRL', type: 'line', unit: 'R$', decimals: 2 },
     cad:        { label: 'CAD',  color: '#9b59b6',       yAxis: 'yBRL', type: 'line', unit: 'R$', decimals: 2 },
     // Selic
-    selicMeta:  { label: 'Meta',     color: '--accent-purple', yAxis: 'yPct', type: 'stepped', unit: '%', decimals: 1 },
-    selicEfet:  { label: 'Efetiva',  color: '#8e44ad',         yAxis: 'yPct', type: 'line',    unit: '%', decimals: 2 },
+    selicMeta:  { label: 'Target',   color: '--accent-purple', yAxis: 'yPct', type: 'stepped', unit: '%', decimals: 1 },
+    selicEfet:  { label: 'Effective', color: '#8e44ad',         yAxis: 'yPct', type: 'line',    unit: '%', decimals: 2 },
     // CDI
-    cdi:        { label: 'Taxa (a.a.)',    color: '--accent-green', yAxis: 'yPct', type: 'line', unit: '%', decimals: 2 },
-    cdiAno:     { label: 'Acum. ano',      color: '#27ae60',        yAxis: 'yPct', type: 'line', unit: '%', decimals: 2 },
-    cdi12m:     { label: 'Acum. 12 meses', color: '#2ecc71',        yAxis: 'yPct', type: 'line', unit: '%', decimals: 2 },
+    cdi:        { label: 'Rate (p.a.)',    color: '--accent-green', yAxis: 'yPct', type: 'line', unit: '%', decimals: 2 },
+    cdiAno:     { label: 'YTD',            color: '#27ae60',        yAxis: 'yPct', type: 'line', unit: '%', decimals: 2 },
+    cdi12m:     { label: '12 months',      color: '#2ecc71',        yAxis: 'yPct', type: 'line', unit: '%', decimals: 2 },
     // IPCA
-    ipca:       { label: 'Mensal',         color: '--accent-red',    yAxis: 'yPct', type: 'line',  unit: '%', decimals: 2 },
-    ipcaAno:    { label: 'Acum. ano',      color: '#c0392b',         yAxis: 'yPct', type: 'line', unit: '%', decimals: 2 },
-    ipca12m:    { label: 'Acum. 12 meses', color: '--accent-yellow', yAxis: 'yPct', type: 'line', unit: '%', decimals: 1 },
+    ipca:       { label: 'Monthly',        color: '--accent-red',    yAxis: 'yPct', type: 'line',  unit: '%', decimals: 2 },
+    ipcaAno:    { label: 'YTD',            color: '#c0392b',         yAxis: 'yPct', type: 'line', unit: '%', decimals: 2 },
+    ipca12m:    { label: '12 months',      color: '--accent-yellow', yAxis: 'yPct', type: 'line', unit: '%', decimals: 1 },
     // IGP-M
-    igpm:       { label: 'Mensal',         color: '#e67e22',  yAxis: 'yPct', type: 'line',  unit: '%', decimals: 2 },
-    igpmAno:    { label: 'Acum. ano',      color: '#d35400',  yAxis: 'yPct', type: 'line', unit: '%', decimals: 2 },
-    igpm12m:    { label: 'Acum. 12 meses', color: '#f39c12',  yAxis: 'yPct', type: 'line', unit: '%', decimals: 2 },
+    igpm:       { label: 'Monthly',        color: '#e67e22',  yAxis: 'yPct', type: 'line',  unit: '%', decimals: 2 },
+    igpmAno:    { label: 'YTD',            color: '#d35400',  yAxis: 'yPct', type: 'line', unit: '%', decimals: 2 },
+    igpm12m:    { label: '12 months',      color: '#f39c12',  yAxis: 'yPct', type: 'line', unit: '%', decimals: 2 },
     // INPC
-    inpc:       { label: 'Mensal',         color: '#e84393',  yAxis: 'yPct', type: 'line',  unit: '%', decimals: 2 },
-    inpcAno:    { label: 'Acum. ano',      color: '#d63031',  yAxis: 'yPct', type: 'line', unit: '%', decimals: 2 },
-    inpc12m:    { label: 'Acum. 12 meses', color: '#fd79a8',  yAxis: 'yPct', type: 'line', unit: '%', decimals: 2 },
-    // Poupança
-    poup:       { label: 'Mensal',         color: '#00cec9',  yAxis: 'yPct', type: 'line',  unit: '%', decimals: 2 },
-    poupAno:    { label: 'Acum. ano',      color: '#00b894',  yAxis: 'yPct', type: 'line', unit: '%', decimals: 2 },
-    poup12m:    { label: 'Acum. 12 meses', color: '#55efc4',  yAxis: 'yPct', type: 'line', unit: '%', decimals: 2 },
+    inpc:       { label: 'Monthly',        color: '#e84393',  yAxis: 'yPct', type: 'line',  unit: '%', decimals: 2 },
+    inpcAno:    { label: 'YTD',            color: '#d63031',  yAxis: 'yPct', type: 'line', unit: '%', decimals: 2 },
+    inpc12m:    { label: '12 months',      color: '#fd79a8',  yAxis: 'yPct', type: 'line', unit: '%', decimals: 2 },
+    // Savings account
+    poup:       { label: 'Monthly',        color: '#00cec9',  yAxis: 'yPct', type: 'line',  unit: '%', decimals: 2 },
+    poupAno:    { label: 'YTD',            color: '#00b894',  yAxis: 'yPct', type: 'line', unit: '%', decimals: 2 },
+    poup12m:    { label: '12 months',      color: '#55efc4',  yAxis: 'yPct', type: 'line', unit: '%', decimals: 2 },
 };
 
 const GROUPS = [
-    { id: 'cambio',   label: 'Câmbio',    indicators: ['usd', 'eur', 'gbp', 'chf', 'cad'] },
+    { id: 'cambio',   label: 'FX rates',  indicators: ['usd', 'eur', 'gbp', 'chf', 'cad'] },
     { id: 'selic',    label: 'Selic',      indicators: ['selicMeta', 'selicEfet'] },
     { id: 'cdi',      label: 'CDI',        indicators: ['cdi', 'cdiAno', 'cdi12m'] },
     { id: 'ipca',     label: 'IPCA',       indicators: ['ipca', 'ipcaAno', 'ipca12m'] },
     { id: 'igpm',     label: 'IGP-M',      indicators: ['igpm', 'igpmAno', 'igpm12m'] },
     { id: 'inpc',     label: 'INPC',       indicators: ['inpc', 'inpcAno', 'inpc12m'] },
-    { id: 'poupanca', label: 'Poupança',   indicators: ['poup', 'poupAno', 'poup12m'] },
+    { id: 'poupanca', label: 'Savings',    indicators: ['poup', 'poupAno', 'poup12m'] },
 ];
 
 const CUTOFF = '2024-01';
@@ -219,11 +219,11 @@ const appState = {
    HELPERS
    ═══════════════════════════════════════ */
 
-function formatCurrency(n) { return n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
-function formatPercent(n, d = 2) { return n.toFixed(d).replace('.', ',') + '%'; }
+function formatCurrency(n) { return n.toLocaleString('en-GB', { style: 'currency', currency: 'BRL' }); }
+function formatPercent(n, d = 2) { return n.toFixed(d) + '%'; }
 function formatVariation(n, suffix = '%') {
     if (n == null) return '—';
-    return (n > 0 ? '+' : '') + n.toFixed(2).replace('.', ',') + suffix;
+    return (n > 0 ? '+' : '') + n.toFixed(2) + suffix;
 }
 function variationClass(n, invert = false) {
     if (n == null || n === 0) return 'variation-neutral';
@@ -232,7 +232,7 @@ function variationClass(n, invert = false) {
 function formatDate(iso) { return new Date(iso).toLocaleDateString('pt-BR'); }
 function formatDateTime(iso) {
     const d = new Date(iso);
-    return d.toLocaleDateString('pt-BR') + ' às ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    return d.toLocaleDateString('en-GB') + ' at ' + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
 }
 
 function getChartColors() {
@@ -257,13 +257,13 @@ function labelStyle(color) {
 }
 
 /* ═══════════════════════════════════════
-   NORMALIZAÇÃO: TUDO MENSAL
+   NORMALISATION: EVERYTHING MONTHLY
    ═══════════════════════════════════════ */
 
 function normalizeMonthly() {
     const raw = appState.raw;
 
-    // Moedas: já vem com monthly do fetch_moedas.py
+    // Currencies: monthly series already comes from fetch_moedas.py
     for (const moeda of ['usd', 'eur', 'gbp', 'chf', 'cad']) {
         if (raw.moedas?.[moeda]?.monthly) {
             appState.monthly[moeda] = raw.moedas[moeda].monthly.filter(m => m.data >= CUTOFF).map(m => ({ mes: m.data, valor: m.valor }));
@@ -307,7 +307,7 @@ function normalizeMonthly() {
         appState.monthly.inpcAno = f(raw.inpc.acum_ano);
     }
 
-    // Poupança
+    // Savings account
     if (raw.poupanca) {
         appState.monthly.poup = f(raw.poupanca.monthly);
         appState.monthly.poupAno = f(raw.poupanca.acum_ano);
@@ -336,8 +336,8 @@ function renderHeader() {
                 <span class="header-badge">Banco Central</span>
             </div>
             <div class="header-right">
-                <span class="header-timestamp">Atualizado em ${ts}</span>
-                <button class="theme-toggle" id="themeToggle" title="Alternar tema">🌙</button>
+                <span class="header-timestamp">Updated ${ts}</span>
+                <button class="theme-toggle" id="themeToggle" title="Toggle theme">🌙</button>
             </div>
         </header>
     `;
@@ -360,31 +360,31 @@ function renderKPIs() {
     return `
         <div class="kpi-grid">
             <div class="kpi-card">
-                <div class="kpi-label">Dólar (USD/BRL)</div>
+                <div class="kpi-label">US dollar (USD/BRL)</div>
                 <div class="kpi-value">${usd?.current ? formatCurrency(usd.current.cotacao_venda) : '—'}</div>
-                <div class="kpi-detail ${variationClass(dolarVar, true)}">${dolarVar != null ? formatVariation(dolarVar) + ' no dia' : '—'}</div>
+                <div class="kpi-detail ${variationClass(dolarVar, true)}">${dolarVar != null ? formatVariation(dolarVar) + ' today' : '—'}</div>
             </div>
             <div class="kpi-card">
-                <div class="kpi-label">Selic Meta</div>
-                <div class="kpi-value">${s?.current?.meta != null ? formatPercent(s.current.meta) + ' a.a.' : '—'}</div>
-                <div class="kpi-detail">${selicDir ? 'COPOM ' + formatDate(selicDir.data) + ': ' + selicDir.direcao + ' ' + formatVariation(selicDir.variacao, ' p.p.') : '—'}</div>
+                <div class="kpi-label">Selic target</div>
+                <div class="kpi-value">${s?.current?.meta != null ? formatPercent(s.current.meta) + ' p.a.' : '—'}</div>
+                <div class="kpi-detail">${selicDir ? 'COPOM ' + formatDate(selicDir.data) + ': ' + (({ alta: 'hike', corte: 'cut' })[selicDir.direcao] || selicDir.direcao) + ' ' + formatVariation(selicDir.variacao, ' p.p.') : '—'}</div>
             </div>
             <div class="kpi-card">
-                <div class="kpi-label">IPCA 12 meses</div>
+                <div class="kpi-label">IPCA 12 months</div>
                 <div class="kpi-value">${i?.current?.acumulado_12m != null ? formatPercent(i.current.acumulado_12m) : '—'}</div>
-                <div class="kpi-detail">${ipcaMeta ? 'Meta: ' + formatPercent(ipcaMeta.centro) + ' (' + formatPercent(ipcaMeta.piso) + ' — ' + formatPercent(ipcaMeta.teto) + ')' : '—'}</div>
+                <div class="kpi-detail">${ipcaMeta ? 'Target: ' + formatPercent(ipcaMeta.centro) + ' (' + formatPercent(ipcaMeta.piso) + ' to ' + formatPercent(ipcaMeta.teto) + ')' : '—'}</div>
             </div>
             <div class="kpi-card">
-                <div class="kpi-label">CDI 12 meses</div>
+                <div class="kpi-label">CDI 12 months</div>
                 <div class="kpi-value">${cdi?.current?.acum_12m != null ? formatPercent(cdi.current.acum_12m) : '—'}</div>
-                <div class="kpi-detail">${cdi?.current?.taxa != null ? 'Taxa diária: ' + cdi.current.taxa.toFixed(4).replace('.', ',') + '%' : '—'}</div>
+                <div class="kpi-detail">${cdi?.current?.taxa != null ? 'Daily rate: ' + cdi.current.taxa.toFixed(4) + '%' : '—'}</div>
             </div>
         </div>
     `;
 }
 
 /* ═══════════════════════════════════════
-   RENDER: SELETOR DE INDICADORES
+   RENDER: INDICATOR SELECTOR
    ═══════════════════════════════════════ */
 
 function renderIndicatorSelector() {
@@ -408,14 +408,14 @@ function renderIndicatorSelector() {
 }
 
 /* ═══════════════════════════════════════
-   RENDER: GRÁFICO
+   RENDER: CHART
    ═══════════════════════════════════════ */
 
 function renderChart() {
     return `
         <div class="content">
             <div class="chart-card">
-                <div class="chart-title">Indicadores Econômicos — Brasil (2024+)</div>
+                <div class="chart-title">Economic Indicators | Brazil (2024+)</div>
                 <div class="chart-container"><canvas id="mainChart"></canvas></div>
             </div>
         </div>
@@ -426,13 +426,13 @@ function getFullLabel(id) {
     const group = GROUPS.find(g => g.indicators.includes(id));
     const cfg = INDICATORS[id];
     if (!group) return cfg.label;
-    // Para moedas, o chip label já é suficiente (USD, EUR...)
+    // For currencies, the chip label is enough (USD, EUR...)
     if (group.indicators.length === 1) return group.label;
-    return group.label + ' — ' + cfg.label;
+    return group.label + ' | ' + cfg.label;
 }
 
 /* ═══════════════════════════════════════
-   MOUNT: GRÁFICO UNIFICADO
+   MOUNT: UNIFIED CHART
    ═══════════════════════════════════════ */
 
 function mountChart() {
@@ -476,8 +476,8 @@ function mountChart() {
                 formatter: v => {
                     if (v == null) return '';
                     return cfg.unit === 'R$'
-                        ? 'R$ ' + v.toFixed(cfg.decimals).replace('.', ',')
-                        : v.toFixed(cfg.decimals).replace('.', ',') + '%';
+                        ? 'R$ ' + v.toFixed(cfg.decimals)
+                        : v.toFixed(cfg.decimals) + '%';
                 },
             },
         };
@@ -523,8 +523,8 @@ function mountChart() {
                             const cfg = INDICATORS[id];
                             if (ctx.parsed.y == null) return null;
                             const val = cfg.unit === 'R$'
-                                ? 'R$ ' + ctx.parsed.y.toFixed(cfg.decimals).replace('.', ',')
-                                : ctx.parsed.y.toFixed(cfg.decimals).replace('.', ',') + '%';
+                                ? 'R$ ' + ctx.parsed.y.toFixed(cfg.decimals)
+                                : ctx.parsed.y.toFixed(cfg.decimals) + '%';
                             return ' ' + getFullLabel(id) + ': ' + val;
                         },
                     },
@@ -536,7 +536,7 @@ function mountChart() {
 }
 
 /* ═══════════════════════════════════════
-   RENDER PRINCIPAL
+   MAIN RENDER
    ═══════════════════════════════════════ */
 
 function render() {
@@ -549,13 +549,13 @@ function render() {
     html += renderChart();
     html += `
         <footer class="footer">
-            Fontes: <a href="https://dadosabertos.bcb.gov.br/" target="_blank">Banco Central do Brasil</a> (PTAX, SGS) |
+            Sources: <a href="https://dadosabertos.bcb.gov.br/" target="_blank">Banco Central do Brasil</a> (PTAX, SGS) |
             <a href="https://github.com/Fexndev/monitor-economia-br" target="_blank">GitHub</a>
         </footer>
     `;
     app.innerHTML = html;
 
-    try { mountChart(); } catch (e) { console.error('Erro ao montar gráfico:', e); }
+    try { mountChart(); } catch (e) { console.error('Error mounting chart:', e); }
     bindEvents();
 }
 
@@ -607,8 +607,8 @@ async function init() {
         console.log('Monthly keys:', Object.keys(appState.monthly));
         render();
     } catch (err) {
-        console.error('Erro ao carregar dados:', err);
-        document.getElementById('app').innerHTML = `<div class="loading"><p>Erro ao carregar dados: ${err.message}</p></div>`;
+        console.error('Error loading data:', err);
+        document.getElementById('app').innerHTML = `<div class="loading"><p>Error loading data: ${err.message}</p></div>`;
     }
 }
 

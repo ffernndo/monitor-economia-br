@@ -1,7 +1,7 @@
 {
-  "name": "Monitor Economia BR",
-  "short_name": "Economia BR",
-  "description": "Dashboard de indicadores econômicos brasileiros: Dólar, Selic e IPCA",
+  "name": "Brazil Economy Monitor",
+  "short_name": "Economy BR",
+  "description": "Dashboard of Brazilian economic indicators: US dollar, Selic and IPCA",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#0d1117",

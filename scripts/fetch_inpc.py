@@ -1,17 +1,17 @@
-"""INPC: série 188 (mensal) + série 11426 (acum 12m) + acum ano calculado."""
+"""INPC: series 188 (monthly) + series 11426 (12-month cumulative) + calculated YTD."""
 
 from utils import fetch_sgs, parse_month, calc_acum_ano, save_json
 from datetime import datetime
 
 
 def main():
-    print("Buscando INPC mensal (série 188)...")
+    print("Fetching INPC monthly (series 188)...")
     raw_mensal = fetch_sgs(188)
-    print(f"  {len(raw_mensal)} registros")
+    print(f"  {len(raw_mensal)} records")
 
-    print("Buscando INPC acum. 12m (série 11426)...")
+    print("Fetching INPC 12m cumulative (series 11426)...")
     raw_acum = fetch_sgs(11426)
-    print(f"  {len(raw_acum)} registros")
+    print(f"  {len(raw_acum)} records")
 
     acum_map = {parse_month(r["data"]): float(r["valor"]) for r in raw_acum}
 

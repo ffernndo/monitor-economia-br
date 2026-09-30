@@ -1,24 +1,24 @@
-"""CDI: série 12 (diário a.a.) + série 4391 (acum mês) → acum ano e 12m."""
+"""CDI: series 12 (daily, p.a.) + series 4391 (month cumulative) → YTD and 12-month cumulative."""
 
 from utils import fetch_sgs, parse_date, parse_month, calc_acum_ano, calc_acum_12m, save_json
 from datetime import datetime
 
 
 def main():
-    print("Buscando CDI diário (série 12)...")
+    print("Fetching daily CDI (series 12)...")
     raw_12 = fetch_sgs(12)
-    print(f"  {len(raw_12)} registros")
+    print(f"  {len(raw_12)} records")
 
-    # Último valor de cada mês = taxa a.a.
+    # Last value of each month = rate p.a.
     by_month = {}
     for r in raw_12:
         mes = parse_date(r["data"])[:7]
         by_month[mes] = float(r["valor"])
     monthly = [{"data": m, "valor": v} for m, v in sorted(by_month.items())]
 
-    print("Buscando CDI acum. mês (série 4391)...")
+    print("Fetching CDI month cumulative (series 4391)...")
     raw_4391 = fetch_sgs(4391)
-    print(f"  {len(raw_4391)} registros")
+    print(f"  {len(raw_4391)} records")
 
     acum_mensal = [{"data": parse_month(r["data"]), "valor": float(r["valor"])} for r in raw_4391]
 

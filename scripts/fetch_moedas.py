@@ -1,6 +1,6 @@
 """
-Coleta cotações de moedas via API PTAX do Banco Central.
-USD, EUR e GBP → salva em data/moedas.json
+Collects currency quotes from the Central Bank PTAX API.
+USD, EUR and GBP → saved to data/moedas.json
 """
 
 import json
@@ -11,7 +11,7 @@ from pathlib import Path
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 OUTPUT = DATA_DIR / "moedas.json"
 
-# USD usa endpoint específico, EUR/GBP usam o genérico
+# USD uses its own endpoint, EUR/GBP use the generic one
 PTAX_USD = (
     "https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/"
     "CotacaoDolarPeriodo(dataInicial=@di,dataFinalCotacao=@df)"
@@ -25,11 +25,11 @@ PTAX_MOEDA = (
 )
 
 MOEDAS = {
-    "usd": {"nome": "Dólar (USD)", "codigo": None},  # endpoint próprio
+    "usd": {"nome": "US Dollar (USD)", "codigo": None},  # own endpoint
     "eur": {"nome": "Euro (EUR)", "codigo": "EUR"},
-    "gbp": {"nome": "Libra (GBP)", "codigo": "GBP"},
-    "chf": {"nome": "Franco Suíço (CHF)", "codigo": "CHF"},
-    "cad": {"nome": "Dólar Can. (CAD)", "codigo": "CAD"},
+    "gbp": {"nome": "Pound (GBP)", "codigo": "GBP"},
+    "chf": {"nome": "Swiss Franc (CHF)", "codigo": "CHF"},
+    "cad": {"nome": "Canadian Dollar (CAD)", "codigo": "CAD"},
 }
 
 
@@ -56,7 +56,7 @@ def one_per_day(records):
 
 
 def process_currency(raw_records):
-    """Processa registros brutos em histórico diário e mensal."""
+    """Processes raw records into daily and monthly history."""
     daily = one_per_day(raw_records)
 
     history = []
@@ -66,7 +66,7 @@ def process_currency(raw_records):
             "venda": round(r["cotacaoVenda"], 4),
         })
 
-    # Agregar mensal (fechamento do mês)
+    # Monthly aggregation (month-end close)
     by_month = {}
     for h in history:
         mes = h["data"][:7]
@@ -76,7 +76,7 @@ def process_currency(raw_records):
 
     current = history[-1] if history else None
 
-    # Variações
+    # Changes
     variations = {}
     if len(history) >= 2:
         cur = history[-1]["venda"]
@@ -101,23 +101,23 @@ def main():
     }
 
     for key, cfg in MOEDAS.items():
-        print(f"Buscando {cfg['nome']}...")
+        print(f"Fetching {cfg['nome']}...")
         try:
             if cfg["codigo"] is None:
                 raw = fetch_usd(di, df)
             else:
                 raw = fetch_moeda(cfg["codigo"], di, df)
-            print(f"  {len(raw)} registros brutos")
+            print(f"  {len(raw)} raw records")
             result[key] = process_currency(raw)
             result[key]["nome"] = cfg["nome"]
-            print(f"  {len(result[key]['monthly'])} meses")
+            print(f"  {len(result[key]['monthly'])} months")
         except Exception as e:
-            print(f"  ERRO: {e}")
+            print(f"  ERROR: {e}")
             result[key] = {"nome": cfg["nome"], "current": None, "variations": {}, "monthly": []}
 
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     OUTPUT.write_text(json.dumps(result, ensure_ascii=False, indent=2))
-    print(f"Salvo em {OUTPUT}")
+    print(f"Saved to {OUTPUT}")
 
 
 if __name__ == "__main__":

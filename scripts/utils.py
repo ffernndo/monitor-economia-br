@@ -1,4 +1,4 @@
-"""Funções utilitárias compartilhadas entre os scripts de coleta."""
+"""Utility functions shared by the collection scripts."""
 
 import json
 import requests
@@ -27,7 +27,7 @@ def parse_date(d):
 
 
 def calc_acum_ano(monthly_values):
-    """Calcula acumulado no ano por composição. Input: [{'data':'YYYY-MM', 'valor': float}]"""
+    """Calculates the year-to-date cumulative by compounding. Input: [{'data':'YYYY-MM', 'valor': float}]"""
     result = []
     ytd = 1.0
     last_year = None
@@ -42,7 +42,7 @@ def calc_acum_ano(monthly_values):
 
 
 def calc_acum_12m(monthly_values):
-    """Calcula acumulado 12 meses por composição (janela deslizante)."""
+    """Calculates the 12-month cumulative by compounding (rolling window)."""
     sorted_vals = sorted(monthly_values, key=lambda x: x['data'])
     result = []
     for i in range(11, len(sorted_vals)):
@@ -57,4 +57,4 @@ def save_json(data, filename):
     filepath = DATA_DIR / filename
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     filepath.write_text(json.dumps(data, ensure_ascii=False, indent=2))
-    print(f"Salvo em {filepath}")
+    print(f"Saved to {filepath}")

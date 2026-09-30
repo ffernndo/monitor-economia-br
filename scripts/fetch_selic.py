@@ -1,11 +1,11 @@
-"""Selic: série 432 (meta) + série 11 (efetiva)."""
+"""Selic: series 432 (target) + series 11 (effective)."""
 
 from utils import fetch_sgs, parse_date, save_json
 from datetime import datetime
 
 
 def compact_monthly(records):
-    """Último valor de cada mês."""
+    """Last value of each month."""
     by_month = {}
     for r in records:
         dt = parse_date(r["data"])
@@ -30,13 +30,13 @@ def detect_copom(records):
 
 
 def main():
-    print("Buscando Selic Meta (série 432)...")
+    print("Fetching Selic target (series 432)...")
     raw_meta = fetch_sgs(432)
-    print(f"  {len(raw_meta)} registros")
+    print(f"  {len(raw_meta)} records")
 
-    print("Buscando Selic Efetiva (série 11)...")
+    print("Fetching effective Selic (series 11)...")
     raw_efetiva = fetch_sgs(11)
-    print(f"  {len(raw_efetiva)} registros")
+    print(f"  {len(raw_efetiva)} records")
 
     meta_monthly = compact_monthly(raw_meta)
     efetiva_monthly = compact_monthly(raw_efetiva)

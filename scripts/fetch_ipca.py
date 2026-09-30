@@ -1,17 +1,17 @@
-"""IPCA: série 433 (mensal) + série 13522 (acum 12m) + acum ano calculado."""
+"""IPCA: series 433 (monthly) + series 13522 (12-month cumulative) + calculated YTD."""
 
 from utils import fetch_sgs, parse_month, calc_acum_ano, save_json
 from datetime import datetime
 
 
 def main():
-    print("Buscando IPCA mensal (série 433)...")
+    print("Fetching IPCA monthly (series 433)...")
     raw_mensal = fetch_sgs(433)
-    print(f"  {len(raw_mensal)} registros")
+    print(f"  {len(raw_mensal)} records")
 
-    print("Buscando IPCA acum. 12m (série 13522)...")
+    print("Fetching IPCA 12m cumulative (series 13522)...")
     raw_acum = fetch_sgs(13522)
-    print(f"  {len(raw_acum)} registros")
+    print(f"  {len(raw_acum)} records")
 
     acum_map = {parse_month(r["data"]): float(r["valor"]) for r in raw_acum}
 

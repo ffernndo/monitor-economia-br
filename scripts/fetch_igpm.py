@@ -1,13 +1,13 @@
-"""IGP-M: série 189 (mensal) + acum 12m e ano calculados."""
+"""IGP-M: series 189 (monthly) + calculated 12-month and YTD cumulative."""
 
 from utils import fetch_sgs, parse_month, calc_acum_ano, calc_acum_12m, save_json
 from datetime import datetime
 
 
 def main():
-    print("Buscando IGP-M (série 189)...")
+    print("Fetching IGP-M (series 189)...")
     raw = fetch_sgs(189)
-    print(f"  {len(raw)} registros")
+    print(f"  {len(raw)} records")
 
     monthly = []
     monthly_for_calc = []

@@ -1,16 +1,16 @@
-"""Poupança: série 25 (rendimento mensal) + acum ano e 12m calculados."""
+"""Savings account: series 25 (monthly yield) + calculated YTD and 12-month cumulative."""
 
 from utils import fetch_sgs, parse_month, calc_acum_ano, calc_acum_12m, save_json
 from datetime import datetime
 
 
 def main():
-    print("Buscando Poupança (série 25)...")
+    print("Fetching savings rate (series 25)...")
     raw = fetch_sgs(25)
-    print(f"  {len(raw)} registros")
+    print(f"  {len(raw)} records")
 
-    # Série 25 tem múltiplos registros por mês (aniversários de depósito).
-    # Pegar apenas o último valor de cada mês.
+    # Series 25 has several records per month (deposit anniversaries).
+    # Keep only the last value of each month.
     by_month = {}
     for r in raw:
         mes = parse_month(r["data"])

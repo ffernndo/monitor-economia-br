@@ -197,7 +197,7 @@ body {
 .variation-down { color: var(--accent-green); }
 .variation-neutral { color: var(--text-muted); }
 
-/* Para Selic/IPCA: alta = vermelho, queda = verde (inverso do dólar para consistência econômica) */
+/* For Selic/IPCA: rise = red, fall = green (the reverse of the dollar, for economic consistency) */
 
 /* ═══════════════════════════════════════
    INDICATOR SELECTOR
