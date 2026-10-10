@@ -1,11 +1,11 @@
 {
-  "last_updated": "2026-10-09T00:59:23Z",
+  "last_updated": "2026-10-10T00:29:22Z",
   "source": "BCB/SGS-433,13522",
   "current": {
-    "mensal": -0.32,
-    "acumulado_12m": 4.22,
-    "acumulado_ano": 3.11,
-    "mes_referencia": "2026-08"
+    "mensal": 0.82,
+    "acumulado_12m": 4.58,
+    "acumulado_ano": 3.95,
+    "mes_referencia": "2026-09"
   },
   "meta_inflacao": {
     "centro": 3.0,
@@ -412,6 +412,11 @@
       "data": "2026-08",
       "variacao": -0.32,
       "acumulado_12m": 4.22
+    },
+    {
+      "data": "2026-09",
+      "variacao": 0.82,
+      "acumulado_12m": 4.58
     }
   ],
   "acum_ano": [
@@ -734,6 +739,10 @@
     {
       "data": "2026-08",
       "valor": 3.11
+    },
+    {
+      "data": "2026-09",
+      "valor": 3.95
     }
   ]
 }
